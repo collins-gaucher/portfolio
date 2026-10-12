@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="src/assets/favicon-dark.ico" />
+    <meta name="description" content="Collins — Développeur Web Full Stack" />
+    <meta name="keywords" content="Collins, Développeur Web, Full Stack, Portfolio, React, TypeScript, Node.js, Tailwind CSS, MySQL, Laravel, Django, Data Analysis, IA" />
+    <meta name="author" content="Collins" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <meta property="og:title" content="Collins — Développeur Web Full Stack" />
+    <meta property="og:description" content="Découvrez mes projets, mes compétences et mon parcours professionnel." />
+    <meta property="og:image" content="src/assets/Previsualisation.png" />
+    <!-- <meta property="og:url" content="https://www.collins-portfolio.com" /> -->
+    <meta property="og:type" content="website" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collins — Développeur Web Full Stack</title>
+    <script>
+      // Appliquer le theme nuit avant le rendu 
+      if(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add("dark")
+      }else{
+        document.documentElement.classList.remove("dark")
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
