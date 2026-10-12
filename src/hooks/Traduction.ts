@@ -304,6 +304,22 @@ const Traductions: Record<string, { fr: string; en: string }> = {
     fr: "Une erreur est survenue lors de l'envoie du mail. Veuillez réessayer.",
     en: "An error occurred while sending the email. Please try again."
   },
+   "Envoi en cours...": {
+    fr: "Envoi en cours...",
+    en: "Sending..."
+  },
+  "Projet": {
+    fr: "Projet",
+    en: "Project"
+  },
+  "Découvrez mes réalisations à travers une sélection de projets mettant en valeur mon développement, ma maîtrise des technologies et ma capacité à transformer des idées en solutions concrètes.": {
+    fr: "Découvrez mes réalisations à travers une sélection de projets mettant en valeur mon développement, ma maîtrise des technologies et ma capacité à transformer des idées en solutions concrètes.",
+    en: "Discover my work through a selection of projects that showcase my development skills, technical expertise, and ability to transform ideas into concrete solutions."
+  },
+  "Site e-commerce permettant de présenter les produits et de faciliter les achats en ligne.": {
+    fr: "Site e-commerce permettant de présenter les produits et de faciliter les achats en ligne.",
+    en: "E-commerce site designed to showcase products and facilitate online purchases."
+  },
 }
 
 export const Traduction = (key: string, lang: 'fr' | 'en') => {

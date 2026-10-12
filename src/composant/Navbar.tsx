@@ -1,274 +1,375 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-// import Photo from '../assets/Photo-Profil.png'
-import Logo_blanc from '../assets/Logo-blanc.png'
-import Logo_noir from '../assets/favicon-dark.ico'
-import { NavLink, Outlet, ScrollRestoration } from 'react-router'
-import { Download, Menu, Moon, Sun, X } from 'lucide-react'
-import Traduire from './Traduires'
-import { Bouton } from '../UI/BoutonNavbar'
-import { Boutons } from '../UI/Bouton'
-import { useClickAilleurs } from '../hooks/useClickAilleurs'
-import Footer from './Footer'
-import { FaWhatsapp } from 'react-icons/fa'
-import Scroll from './Scroll'
+import React from "react";
+import { motion } from "framer-motion";
+import { NavLink, Outlet, ScrollRestoration } from "react-router";
+import {
+  Download,
+  Menu,
+  Moon,
+  Sun,
+  X,
+} from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
+
+import Logo_blanc from "../assets/Logo-blanc.png";
+import Logo_noir from "../assets/favicon-dark.ico";
+
+import Traduire from "./Traduires";
+import Footer from "./Footer";
+import Scroll from "./Scroll";
+
+import { Bouton } from "../UI/BoutonNavbar";
+import { Boutons } from "../UI/Bouton";
+import { useClickAilleurs } from "../hooks/useClickAilleurs";
 
 const Navbar = () => {
-    // Etat du scroll pour changer le style du navbar
-    const [scrolled, setScrolled] = React.useState(false)
+  // ----------------------------------------
+  // ÉTATS
+  // ----------------------------------------
 
-    // Etat pour gerer l'ouverture et la fermeture du menu mobile 
-    const [ouvert, SetOuvert] = React.useState(false)
+  const [scrolled, setScrolled] = React.useState(false);
+  const [ouvert, setOuvert] = React.useState(false);
 
-    // Activer le background du navbar lorsque l'utilisateur scroll vers le bas
-    React.useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 0) {
-                setScrolled(true)
-            } else {
-                setScrolled(false)
-            }
-        }
-        window.addEventListener('scroll', handleScroll)
-        return () => {
-            window.removeEventListener('scroll', handleScroll)
-        }
-    }, [])
+  const [isDark, setIsDark] = React.useState(() => {
+    if (typeof window === "undefined") return false;
 
-    // Gerer le changement de theme nuit/jour 
-    const [isDark, setIsDark] = React.useState(() => {
-        // Verifie si le theme nuit est deja presente au moment de l'initialisation 
-        if(typeof document !== "undefined" && document.documentElement.classList.contains("dark")) {
-            return true
-        }
-        // Recupere le theme choisit par l'utilisateur 
-        const sauvegardeTheme = localStorage.getItem("theme")
-        if (sauvegardeTheme) {
-            return sauvegardeTheme === "dark"
-        }
-        // sinon on lit lit la preference du systeme ou navigateur 
-        return window.matchMedia('(prefers-color-scheme: dark)').matches
-    })
+    const themeSauvegarde = localStorage.getItem("theme");
 
-    // Mettre a jour la classe dark du site et sauvegarder la preference 
-    React.useEffect(() => {
-        if(isDark) {
-            document.documentElement.classList.add("dark")
-            localStorage.setItem("theme", "dark")
-        }else{
-            document.documentElement.classList.remove("dark")
-            localStorage.setItem("theme", "light")
-        }
-        return 
-    }, [isDark])
-
-    // Ecouter les changements en direct du systeme 
-    React.useEffect(() => {
-        const media = window.matchMedia('(prefers-color-scheme: dark)')
-        const handleChange = (e: MediaQueryListEvent) => {
-            // Uniquement si l'utilisateur n'a pas choisir manuellement le theme 
-            if(!localStorage.getItem("theme")) {
-                setIsDark(e.matches)
-            }
-        }
-        media.addEventListener("change", handleChange)
-        return () => media.removeEventListener("change", handleChange)
-    }, [])
-
-    // Lague courante fr par defaut 
-    const [langue, setLangue] = React.useState<"fr" | "en">(() => {
-        return (localStorage.getItem("app_langue") as "fr" | "en") || "fr"
-    })
-
-    const changementLangue = () => {
-        const prochaineLangue = langue === "fr" ? "en" : "fr"
-        setLangue(prochaineLangue)
-        localStorage.setItem("app_langue", prochaineLangue)
+    if (themeSauvegarde) {
+      return themeSauvegarde === "dark";
     }
 
-    // Reference pour le contenu du menu 
-    const menuRef = React.useRef<HTMLElement | null>(null)
+    return window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+  });
 
-    // Fonction pour fermer le menu 
-    const fermetureMenu = () =>SetOuvert(false)
+  const [langue, setLangue] = React.useState<"fr" | "en">(() => {
+    if (typeof window === "undefined") return "fr";
 
-    // Fermeture auto lors d'un click en dehors du menuRef 
-    useClickAilleurs(menuRef, fermetureMenu, ouvert)
+    const langueSauvegardee = localStorage.getItem("app_langue");
 
-    // Constate pour dire qu'on est present sur le menu choisir 
-    const ActifMenu = ({isActive}: {isActive: boolean}) => (
-        `h-full flex items-center hover:text-black dark:hover:text-white transition-colors duration-300 ${
-        isActive ? 'border-b-3 border-blue-600 text-black dark:text-white' : ''}`
-    )
+    return langueSauvegardee === "en" ? "en" : "fr";
+  });
 
-    // Configurer le bouton pour telecharger mon cv
-    const handleDownload = () => {
-        const link = document.createElement('a')
-        link.href = '/CV LONFOUO NAHA COLLINS.pdf' 
-        link.download = 'CV LONFOUO NAHA COLLINS.pdf' 
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-    }
+  const themeManuel = React.useRef(
+    typeof window !== "undefined" &&
+      localStorage.getItem("theme") !== null
+  );
 
-    // Configurer le lien whatsap 
-   const Whatsap = `https://wa.me/237658599369?text=${encodeURIComponent("Bonjour Monsieur Collins, je souhaite échanger sur un projet.")}`
-    
+  const menuRef = React.useRef<HTMLElement | null>(null);
+
+  // ----------------------------------------
+  // SCROLL DE LA NAVBAR
+  // ----------------------------------------
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 0);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // ----------------------------------------
+  // THÈME SOMBRE / CLAIR
+  // ----------------------------------------
+
+  React.useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark);
+
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  }, [isDark]);
+
+  React.useEffect(() => {
+    const media = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    );
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      if (!themeManuel.current) {
+        setIsDark(event.matches);
+      }
+    };
+
+    media.addEventListener("change", handleChange);
+
+    return () => {
+      media.removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  const changementTheme = () => {
+    themeManuel.current = true;
+    setIsDark((precedent) => !precedent);
+  };
+
+  // ----------------------------------------
+  // LANGUE
+  // ----------------------------------------
+
+  const changementLangue = () => {
+    const nouvelleLangue = langue === "fr" ? "en" : "fr";
+
+    setLangue(nouvelleLangue);
+    localStorage.setItem("app_langue", nouvelleLangue);
+  };
+
+  // ----------------------------------------
+  // MENU MOBILE
+  // ----------------------------------------
+
+  const fermetureMenu = () => {
+    setOuvert(false);
+  };
+
+  useClickAilleurs(menuRef, fermetureMenu, ouvert);
+
+  // ----------------------------------------
+  // NAVIGATION
+  // ----------------------------------------
+
+  const classeLien = ({ isActive }: { isActive: boolean }) =>
+    [
+      "flex h-full items-center whitespace-nowrap",
+      "border-b-2 transition-colors duration-200",
+      "hover:text-blue-600 dark:hover:text-blue-400",
+      isActive
+        ? "border-blue-600 text-blue-600 dark:text-blue-400"
+        : "border-transparent",
+    ].join(" ");
+
+  // ----------------------------------------
+  // TÉLÉCHARGEMENT DU CV
+  // ----------------------------------------
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+
+    link.href = "/CV%20LONFOUO%20NAHA%20COLLINS.pdf";
+    link.download = "CV LONFOUO NAHA COLLINS.pdf";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  // ----------------------------------------
+  // WHATSAPP
+  // ----------------------------------------
+
+  const Whatsap = `https://wa.me/237658599369?text=${encodeURIComponent(
+    "Bonjour Monsieur Collins, je souhaite échanger sur un projet."
+  )}`;
+
+  // ----------------------------------------
+  // BOUTONS THÈME ET LANGUE
+  // ----------------------------------------
+
+  const commandes = (
+    <>
+      <Bouton onClick={changementTheme}>
+        {isDark ? (
+          <Sun className="h-5 w-5" />
+        ) : (
+          <Moon className="h-5 w-5" />
+        )}
+      </Bouton>
+
+      <Bouton onClick={changementLangue}>
+        <span className="text-sm font-bold">
+          {langue === "fr" ? "EN" : "FR"}
+        </span>
+      </Bouton>
+    </>
+  );
+
+  // ----------------------------------------
+  // LIENS DE NAVIGATION
+  // ----------------------------------------
+
+  const liens = [
+    { to: "/", label: "Accueil", end: true },
+    { to: "/propos", label: "A propos" },
+    { to: "/projet", label: "Projet" },
+    { to: "/competences", label: "Compétences" },
+    { to: "/contact", label: "Contact" },
+  ];
+
   return (
     <>
-        <ScrollRestoration/>
-        
-        <header ref={menuRef} className={`h-25 w-full fixed top-0 left-0 z-50 transition-all duration-300 flex items-center justify-between px-8 border-y dark:border-gray-800 border-gray-200 ${scrolled ? 'bg-gray-100/90 dark:bg-gray-950/90': ''}`}
+      <ScrollRestoration />
+
+      {/* NAVBAR */}
+      <header
+        ref={menuRef}
+        className={[
+          "fixed inset-x-0 top-0 z-50",
+          "flex h-20 items-center justify-between",
+          "gap-3 border-b px-4 sm:px-6 lg:px-8",
+          "border-gray-200 dark:border-gray-800",
+          "transition-colors duration-300",
+          scrolled
+            ? "bg-white/90 shadow-sm backdrop-blur-md dark:bg-gray-950/90"
+            : "bg-white dark:bg-gray-950",
+        ].join(" ")}
+      >
+        {/* LOGO */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="shrink-0"
         >
+          <NavLink
+            to="/"
+            end
+            onClick={fermetureMenu}
+            className="flex items-center gap-2"
+            aria-label="Accueil du portfolio de Collins"
+          >
+            <img
+              src={isDark ? Logo_noir : Logo_blanc}
+              alt=""
+              className="h-10 w-10 rounded-lg object-contain sm:h-12 sm:w-12"
+            />
 
-            {/* Mise en place du logo avec animation d'apparition et de translation */}
-            <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
+            <span className="flex items-center text-xl font-bold tracking-wide text-black dark:text-white sm:text-2xl">
+              <span className="text-blue-600">C</span>
+              ollins
+              <span className="text-blue-600">.</span>
+            </span>
+          </NavLink>
+        </motion.div>
+
+        {/* MENU DESKTOP */}
+        <nav
+          aria-label="Navigation principale"
+          className="hidden h-full items-center gap-5 text-sm font-semibold text-gray-500 dark:text-gray-400 2xl:gap-8 xl:flex xl:gap-4 xl:text-sm 2xl:text-base"
+        >
+          {liens.map((lien) => (
+            <NavLink
+              key={lien.to}
+              to={lien.to}
+              end={lien.end}
+              className={classeLien}
             >
-                <NavLink to="/" end className='flex items-center gap-2'> 
-                    {
-                        isDark ? <img src={Logo_noir} alt="Logo du portfolio de Collins" className='w-15 h-15 rounded-lg' loading='lazy'/> :
-                        <img src={Logo_blanc} alt="Logo du portfolio de Collins" className='w-15 h-15 rounded-lg' loading='lazy'/>
-                    }
-                    <span className='flex items-center font-bold text-2xl tracking-wider dark:text-white text-black' aria-label=''><p className='text-blue-600'>C</p>ollins<p className='text-blue-600'>.</p></span>
-                </NavLink>
-            </motion.div>
+              <Traduire lang={langue}>{lien.label}</Traduire>
+            </NavLink>
+          ))}
+        </nav>
 
-            {/* Mise en place du menu nav pour mobile */}
-            <div className='flex items-center gap-2 xl:hidden'>
-                {/* Bouton mode jour/nuit  */}
-                <Bouton onClick={() => setIsDark(!isDark)}>
-                    { isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                </Bouton>
-                {/* Bouton langue fr/en  */}
-                <Bouton onClick={changementLangue}>
-                    <span className='font-bold text-sm'>{langue === "fr" ? "EN" : "FR"}</span>
-                </Bouton>
-                {/* Bouton de menu pour ecran mobile  */}
-                <Bouton onClick={() => SetOuvert((prev) => !prev)} className='btn-toggle-menu'>
-                    {ouvert? <X size={30}/> : <Menu size={30}/> }
-                </Bouton>
-                {ouvert && (
-                    <nav className='z-50 absolute flex flex-col justify-center items-center left-0 text-2xl gap-8 py-6 w-full top-24 border-y dark:border-gray-800 border-gray-200 text-gray-600 dark:text-gray-400 bg-gray-100/90 dark:bg-gray-950/90 font-semibold '>
-                        <NavLink 
-                            to="/" end 
-                            className={`hover:text-black dark:hover:text-white transition-colors duration-300`}
-                            onClick={fermetureMenu}
-                        >
-                            <Traduire lang={langue}>Accueil</Traduire>
-                        </NavLink>
-                        <NavLink 
-                            to="/propos" 
-                            onClick={fermetureMenu}
-                            className={`hover:text-black dark:hover:text-white transition-colors duration-300`}
-                        >
-                            <Traduire lang={langue}>A propos</Traduire>
-                        </NavLink>
-                        <NavLink 
-                            to="/projet" 
-                            onClick={fermetureMenu}
-                            className={`hover:text-black dark:hover:text-white transition-colors duration-300`}
-                        >
-                            <Traduire lang={langue}>Projet</Traduire>
-                        </NavLink>
-                        <NavLink 
-                            to="/competences" 
-                            onClick={fermetureMenu}
-                            className={`hover:text-black dark:hover:text-white transition-colors duration-300`}
-                        >
-                            <Traduire lang={langue}>Compétences</Traduire>
-                        </NavLink>
-                        <NavLink 
-                            to="/contact"
-                            onClick={fermetureMenu} 
-                            className={`hover:text-black dark:hover:text-white transition-colors duration-300`}
-                        >
-                            <Traduire lang={langue}>Contact</Traduire>
-                        </NavLink>
-                        <Boutons onClick={handleDownload}>
-                            <Traduire lang={langue}>Télécharger CV</Traduire> <Download />
-                        </Boutons>
-                </nav>
-                )}
-            </div>
+        {/* COMMANDES DESKTOP */}
+        <div className="hidden shrink-0 items-center gap-2 xl:flex">
+          {commandes}
 
-            {/* Mise en place du menu nav pour gand ecran */}
-                {/* Menu de navigation */}
-                <nav className='h-full hidden justify-center items-center text-xl gap-12 text-gray-500 dark:text-gray-400 font-semibold xl:flex'>
-                    <NavLink 
-                        to="/" end 
-                        className={ActifMenu}
-                    >
-                        <Traduire lang={langue}>Accueil</Traduire>
-                    </NavLink>
-                    <NavLink 
-                        to="/propos" 
-                        className={ActifMenu}
-                    >
-                        <Traduire lang={langue}>A propos</Traduire>
-                    </NavLink>
-                    <NavLink 
-                        to="/projet" 
-                        className={ActifMenu}
-                    >
-                        <Traduire lang={langue}>Projet</Traduire>
-                    </NavLink>
-                    <NavLink 
-                        to="/competences" 
-                        className={ActifMenu}
-                    >
-                        <Traduire lang={langue}>Compétences</Traduire>
-                    </NavLink>
-                    <NavLink 
-                        to="/contact" 
-                        className={ActifMenu}
-                    >
-                        <Traduire lang={langue}>Contact</Traduire>
-                    </NavLink>
-                    
-                </nav>
-                <div className='hidden items-center gap-4 xl:flex'>
-                    {/* Bouton mode jour/nuit  */}
-                <Bouton onClick={() => setIsDark(!isDark)}>
-                    { isDark ? <Sun className="w-5 h-5"/> : <Moon className="w-5 h-5"/>}
-                </Bouton>
-                {/* Bouton langue fr/en  */}
-                <Bouton onClick={changementLangue}>
-                    <span className='font-bold text-sm'>{langue === "fr" ? "EN" : "FR"}</span>
-                </Bouton>
-                {/* Bouton pour telecharger mon cv  */}
-                <Boutons onClick={handleDownload}>
-                    <Traduire lang={langue}>Télécharger CV</Traduire> <Download />
-                </Boutons>
-                </div>
-            {/* </div> */}
+          <Boutons onClick={handleDownload}>
+            <span className="whitespace-nowrap text-sm">
+              <Traduire lang={langue}>Télécharger CV</Traduire>
+            </span>
+            <Download className="h-4 w-4 shrink-0" />
+          </Boutons>
+        </div>
 
+        {/* COMMANDES MOBILE ET TABLETTE */}
+        <div className="flex shrink-0 items-center gap-1.5 xl:hidden sm:gap-2">
+          {commandes}
 
-        </header>
+          <Bouton
+            onClick={() => setOuvert((precedent) => !precedent)}
+            aria-label={ouvert ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={ouvert}
+          >
+            {ouvert ? (
+              <X className="h-5 w-5 sm:h-6 sm:w-6" />
+            ) : (
+              <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
+            )}
+          </Bouton>
+        </div>
 
-        <main className='pt-25'>
+        {/* MENU MOBILE */}
+        {ouvert && (
+          <nav
+            aria-label="Navigation mobile"
+            className={[
+              "absolute left-0 top-full w-full",
+              "flex max-h-[calc(100dvh-5rem)] flex-col",
+              "items-center gap-5 overflow-y-auto",
+              "border-b border-gray-200 px-4 py-6",
+              "bg-white/95 text-base font-semibold text-gray-600",
+              "shadow-lg backdrop-blur-md",
+              "dark:border-gray-800 dark:bg-gray-950/95",
+              "dark:text-gray-300 sm:gap-6 sm:py-8 sm:text-lg",
+            ].join(" ")}
+          >
+            {liens.map((lien) => (
+              <NavLink
+                key={lien.to}
+                to={lien.to}
+                end={lien.end}
+                onClick={fermetureMenu}
+                className={({ isActive }) =>
+                  [
+                    "py-1 transition-colors duration-200",
+                    "hover:text-blue-600 dark:hover:text-blue-400",
+                    isActive
+                      ? "text-blue-600 dark:text-blue-400"
+                      : "",
+                  ].join(" ")
+                }
+              >
+                <Traduire lang={langue}>{lien.label}</Traduire>
+              </NavLink>
+            ))}
 
-            {/* Lien pourla messagerie whatsap  */}
-            <a 
-              href={Whatsap}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Contacter sur WhatsApp"
-              className='z-60 h-15 w-15 rounded-full bg-green-400 flex items-center justify-center text-white cursor-pointer fixed bottom-30 right-10 hover:scale-110 transition-all duration-400'
-            >
-                <FaWhatsapp size={40}/>
-            </a>
+            <Boutons onClick={() => {
+              fermetureMenu();
+              handleDownload();
+            }}>
+              <Traduire lang={langue}>Télécharger CV</Traduire>
+              <Download className="h-4 w-4" />
+            </Boutons>
+          </nav>
+        )}
+      </header>
 
-            <Scroll/>
+      {/* CONTENU PRINCIPAL */}
+      <main className="min-h-screen pt-20">
+        {/* BOUTON WHATSAPP */}
+        <a
+          href={Whatsap}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Contacter Collins sur WhatsApp"
+          className={[
+            "fixed bottom-20 right-4 z-40",
+            "flex h-12 w-12 items-center justify-center",
+            "rounded-full bg-green-500 text-white shadow-lg",
+            "transition-transform duration-200 hover:scale-110",
+            "sm:bottom-25 sm:right-6 sm:h-14 sm:w-14",
+            "md:bottom-30 md:right-8",
+          ].join(" ")}
+        >
+          <FaWhatsapp className="h-7 w-7 sm:h-8 sm:w-8" />
+        </a>
 
-            <Outlet context={{langue}}/>
+        <Scroll />
 
-        </main>
-        <Footer langue={langue}/>
+        <Outlet context={{ langue }} />
+      </main>
+
+      {/* FOOTER */}
+      <Footer langue={langue} />
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
