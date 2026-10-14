@@ -320,6 +320,30 @@ const Traductions: Record<string, { fr: string; en: string }> = {
     fr: "Site e-commerce permettant de présenter les produits et de faciliter les achats en ligne.",
     en: "E-commerce site designed to showcase products and facilitate online purchases."
   },
+  "PROJETS RÉALISÉS": {
+    fr: "PROJETS RÉALISÉS",
+    en: "COMPLETED PROJECTS"
+  },
+  "ANS D'EXPÉRIENCE": {
+    fr: "ANS D'EXPÉRIENCE",
+    en: "YEARS OF EXPERIENCE"
+  },
+  "Créatif et logique, j'aime bâtir des systèmes robustes et accessibles. Peu importe le projet web, je suis partant.": {
+    fr: "Créatif et logique, j'aime bâtir des systèmes robustes et accessibles. Peu importe le projet web, je suis partant.",
+    en: "Creative and logical, I like to build robust and accessible systems. No matter the web project, I'm up for it."
+  },
+  "Répond sous 24 h": {
+    fr: "Répond sous 24 h",
+    en: "Responds within 24 hours"
+  },
+  "À distance": {
+    fr: "À distance",
+    en: "Remote"
+  },
+  "Que ce soit pour un projet, une idée ou juste discuter — je suis toujours ouvert à une bonne conversation.": {
+    fr: "Que ce soit pour un projet, une idée ou juste discuter — je suis toujours ouvert à une bonne conversation.",
+    en: "Whether it's for a project, an idea or just to chat — I'm always open to a good conversation."
+  },
 }
 
 export const Traduction = (key: string, lang: 'fr' | 'en') => {

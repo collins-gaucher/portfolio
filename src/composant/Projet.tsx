@@ -90,8 +90,8 @@ const Projet = () => {
             <div className="mb-6 flex flex-wrap gap-2">
               <Cadre>HTML</Cadre>
               <Cadre>CSS</Cadre>
-              <Cadre>JAVASCRIPT</Cadre>
-              <Cadre>LARAVEL</Cadre>
+              <Cadre>JavaScript</Cadre>
+              <Cadre>Laravel</Cadre>
             </div>
 
             {/* Lien */}

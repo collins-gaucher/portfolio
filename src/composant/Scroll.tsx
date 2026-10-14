@@ -41,7 +41,7 @@ const Scroll = () => {
         flex h-11 w-11 items-center justify-center
         rounded-full border border-gray-400
         bg-gray-300/90 text-gray-700 shadow-lg
-        transition-all duration-300
+        transition-all duration-500
         hover:scale-110 hover:bg-blue-500 hover:text-white
         focus:outline-none focus:ring-2 focus:ring-blue-500
         focus:ring-offset-2

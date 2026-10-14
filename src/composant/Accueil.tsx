@@ -449,6 +449,7 @@ const Accueil = () => {
                   <Traduire lang={langue}>SITE E-COMMERCE</Traduire>
                 </p>
               </div>
+            
 
               <p className="text-base leading-relaxed text-gray-600 sm:text-lg dark:text-gray-300">
                 <Traduire lang={langue}>

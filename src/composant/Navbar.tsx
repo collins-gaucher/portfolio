@@ -1,13 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { NavLink, Outlet, ScrollRestoration } from "react-router";
-import {
-  Download,
-  Menu,
-  Moon,
-  Sun,
-  X,
-} from "lucide-react";
+import { Download, Menu, Moon, Sun, X } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 
 import Logo_blanc from "../assets/Logo-blanc.png";
@@ -38,9 +32,7 @@ const Navbar = () => {
       return themeSauvegarde === "dark";
     }
 
-    return window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
 
   const [langue, setLangue] = React.useState<"fr" | "en">(() => {
@@ -52,8 +44,7 @@ const Navbar = () => {
   });
 
   const themeManuel = React.useRef(
-    typeof window !== "undefined" &&
-      localStorage.getItem("theme") !== null
+    typeof window !== "undefined" && localStorage.getItem("theme") !== null,
   );
 
   const menuRef = React.useRef<HTMLElement | null>(null);
@@ -89,9 +80,7 @@ const Navbar = () => {
   }, [isDark]);
 
   React.useEffect(() => {
-    const media = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    );
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
 
     const handleChange = (event: MediaQueryListEvent) => {
       if (!themeManuel.current) {
@@ -166,7 +155,7 @@ const Navbar = () => {
   // ----------------------------------------
 
   const Whatsap = `https://wa.me/237658599369?text=${encodeURIComponent(
-    "Bonjour Monsieur Collins, je souhaite échanger sur un projet."
+    "Bonjour Monsieur Collins, je souhaite échanger sur un projet.",
   )}`;
 
   // ----------------------------------------
@@ -176,11 +165,7 @@ const Navbar = () => {
   const commandes = (
     <>
       <Bouton onClick={changementTheme}>
-        {isDark ? (
-          <Sun className="h-5 w-5" />
-        ) : (
-          <Moon className="h-5 w-5" />
-        )}
+        {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
       </Bouton>
 
       <Bouton onClick={changementLangue}>
@@ -252,7 +237,7 @@ const Navbar = () => {
         {/* MENU DESKTOP */}
         <nav
           aria-label="Navigation principale"
-          className="hidden h-full items-center gap-5 text-sm font-semibold text-gray-500 dark:text-gray-400 2xl:gap-8 xl:flex xl:gap-4 xl:text-sm 2xl:text-base"
+          className="hidden h-full items-center gap-5 text-sm font-semibold text-gray-500 dark:text-gray-400 2xl:gap-20 xl:flex xl:gap-16 xl:text-sm 2xl:text-base"
         >
           {liens.map((lien) => (
             <NavLink
@@ -295,6 +280,15 @@ const Navbar = () => {
           </Bouton>
         </div>
 
+        {/* COUCHE DE BLOCAGE */}
+        {ouvert && (
+          <div
+            className="fixed inset-0 -z-1"
+            onClick={fermetureMenu}
+            aria-hidden="true"
+          />
+        )}
+
         {/* MENU MOBILE */}
         {ouvert && (
           <nav
@@ -320,9 +314,7 @@ const Navbar = () => {
                   [
                     "py-1 transition-colors duration-200",
                     "hover:text-blue-600 dark:hover:text-blue-400",
-                    isActive
-                      ? "text-blue-600 dark:text-blue-400"
-                      : "",
+                    isActive ? "text-blue-600 dark:text-blue-400" : "",
                   ].join(" ")
                 }
               >
@@ -330,14 +322,18 @@ const Navbar = () => {
               </NavLink>
             ))}
 
-            <Boutons onClick={() => {
-              fermetureMenu();
-              handleDownload();
-            }}>
+            <Boutons
+              onClick={() => {
+                fermetureMenu();
+                handleDownload();
+              }}
+            >
               <Traduire lang={langue}>Télécharger CV</Traduire>
               <Download className="h-4 w-4" />
             </Boutons>
           </nav>
+
+
         )}
       </header>
 
@@ -353,7 +349,7 @@ const Navbar = () => {
             "fixed bottom-20 right-4 z-40",
             "flex h-12 w-12 items-center justify-center",
             "rounded-full bg-green-500 text-white shadow-lg",
-            "transition-transform duration-200 hover:scale-110",
+            "transition-transform duration-500 hover:scale-110",
             "sm:bottom-25 sm:right-6 sm:h-14 sm:w-14",
             "md:bottom-30 md:right-8",
           ].join(" ")}
