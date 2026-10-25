@@ -6,8 +6,10 @@ import {
   SiDjango,
   SiHtml5,
   SiJavascript,
+  SiLaravel,
   SiMysql,
   SiPhp,
+  SiPostgresql,
   SiTailwindcss,
   SiTypescript,
 } from 'react-icons/si'
@@ -19,6 +21,27 @@ interface ContexteType {
 }
 
 const TableauCompetence = [
+  {
+    nom: 'HTML5',
+    icon: SiHtml5,
+    couleur:
+      'hover:bg-[#E34F26]/20 hover:border-[#E34F26] bg-[#E34F26]/20 shadow-lg hover:shadow-[#E34F26]/20 hover:text-[#E34F26]',
+    iconcouleur: 'text-[#E34F26]',
+  },
+  {
+    nom: 'CSS3',
+    icon: FaCss3,
+    couleur:
+      'hover:bg-[#1572B6]/20 hover:border-[#1572B6] bg-[#1572B6]/20 shadow-lg hover:shadow-[#1572B6]/20 hover:text-[#1572B6]',
+    iconcouleur: 'text-[#1572B6]',
+  },
+  {
+    nom: 'JavaScript',
+    icon: SiJavascript,
+    couleur:
+      'hover:bg-[#F7DF1E]/20 hover:border-[#F7DF1E] bg-[#F7DF1E]/20 shadow-lg hover:shadow-[#F7DF1E]/20 hover:text-[#F7DF1E]',
+    iconcouleur: 'text-[#F7DF1E]',
+  },
   {
     nom: 'React',
     icon: FaReact,
@@ -34,18 +57,18 @@ const TableauCompetence = [
     iconcouleur: 'text-[#3178C6]',
   },
   {
-    nom: 'JavaScript',
-    icon: SiJavascript,
+    nom: 'Tailwind CSS',
+    icon: SiTailwindcss,
     couleur:
-      'hover:bg-[#F7DF1E]/20 hover:border-[#F7DF1E] bg-[#F7DF1E]/20 shadow-lg hover:shadow-[#F7DF1E]/20 hover:text-[#F7DF1E]',
-    iconcouleur: 'text-[#F7DF1E]',
+      'hover:bg-[#06B6D4]/20 hover:border-[#06B6D4] bg-[#06B6D4]/20 shadow-lg hover:shadow-[#06B6D4]/20 hover:text-[#06B6D4]',
+    iconcouleur: 'text-[#06B6D4]',
   },
   {
-    nom: 'PHP',
-    icon: SiPhp,
+    nom: 'PostgreSQL',
+    icon: SiPostgresql,
     couleur:
-      'hover:bg-[#777BB4]/20 hover:border-[#777BB4] bg-[#777BB4]/20 shadow-lg hover:shadow-[#777BB4]/20 hover:text-[#777BB4]',
-    iconcouleur: 'text-[#777BB4]',
+      'hover:bg-[#1572B6]/20 hover:border-[#1572B6] bg-[#1572B6]/20 shadow-lg hover:shadow-[#1572B6]/20 hover:text-[#1572B6]',
+    iconcouleur: 'text-[#1572B6]',
   },
   {
     nom: 'MySQL',
@@ -55,13 +78,6 @@ const TableauCompetence = [
     iconcouleur: 'text-[#4479A1]',
   },
   {
-    nom: 'Tailwind CSS',
-    icon: SiTailwindcss,
-    couleur:
-      'hover:bg-[#06B6D4]/20 hover:border-[#06B6D4] bg-[#06B6D4]/20 shadow-lg hover:shadow-[#06B6D4]/20 hover:text-[#06B6D4]',
-    iconcouleur: 'text-[#06B6D4]',
-  },
-  {
     nom: 'Django',
     icon: SiDjango,
     couleur:
@@ -69,15 +85,15 @@ const TableauCompetence = [
     iconcouleur: 'text-[#092E20]',
   },
   {
-    nom: 'HTML5',
-    icon: SiHtml5,
+    nom: 'PHP',
+    icon: SiPhp,
     couleur:
-      'hover:bg-[#E34F26]/20 hover:border-[#E34F26] bg-[#E34F26]/20 shadow-lg hover:shadow-[#E34F26]/20 hover:text-[#E34F26]',
-    iconcouleur: 'text-[#E34F26]',
+      'hover:bg-[#777BB4]/20 hover:border-[#777BB4] bg-[#777BB4]/20 shadow-lg hover:shadow-[#777BB4]/20 hover:text-[#777BB4]',
+    iconcouleur: 'text-[#777BB4]',
   },
   {
-    nom: 'CSS3',
-    icon: FaCss3,
+    nom: 'Laravel',
+    icon: SiLaravel,
     couleur:
       'hover:bg-[#1572B6]/20 hover:border-[#1572B6] bg-[#1572B6]/20 shadow-lg hover:shadow-[#1572B6]/20 hover:text-[#1572B6]',
     iconcouleur: 'text-[#1572B6]',

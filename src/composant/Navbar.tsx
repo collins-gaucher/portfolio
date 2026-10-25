@@ -222,7 +222,7 @@ const Navbar = () => {
           >
             <img
               src={isDark ? Logo_noir : Logo_blanc}
-              alt=""
+              alt="Logo du portfolio de Collins"
               className="h-10 w-10 rounded-lg object-contain sm:h-12 sm:w-12"
             />
 

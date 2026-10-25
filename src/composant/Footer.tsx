@@ -30,27 +30,31 @@ function Footer({ langue }: ContexteType) {
         {/* Identité */}
         <div className="flex min-w-0 flex-col items-start gap-4">
           <div className="flex items-center gap-2">
-            <img
-              src={Logo_noir}
-              alt="Logo du portfolio de Collins"
-              className="hidden h-12 w-12 rounded-lg object-contain sm:h-14 sm:w-14 dark:block"
-              loading="lazy"
-            />
-
+            <NavLink
+            to="/"
+            end
+            className="flex items-center gap-2"
+            aria-label="Accueil du portfolio de Collins"
+          >
             <img
               src={Logo_blanc}
               alt="Logo du portfolio de Collins"
-              className="block h-12 w-12 rounded-lg object-contain sm:h-14 sm:w-14 dark:hidden"
-              loading="lazy"
+              className="h-10 w-10 rounded-lg object-contain sm:h-12 sm:w-12 dark:hidden"
             />
 
-            <span
-              className="flex items-center text-2xl font-bold tracking-wider text-black sm:text-3xl dark:text-white"
-              aria-label="Collins"
-            >
-              <span className="text-blue-600">C</span>ollins
+            <img
+              src={Logo_noir}
+              alt="Logo du portfolio de Collins"
+              className="hidden h-10 w-10 rounded-lg object-contain sm:h-12 sm:w-12 dark:block"
+            />
+
+            <span className="flex items-center text-xl font-bold tracking-wide text-black dark:text-white sm:text-2xl">
+              <span className="text-blue-600">C</span>
+              ollins
               <span className="text-blue-600">.</span>
             </span>
+          </NavLink>
+
           </div>
 
           <p className="text-base font-semibold text-gray-600 sm:text-lg dark:text-gray-400">

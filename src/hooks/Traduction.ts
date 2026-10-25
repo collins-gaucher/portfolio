@@ -344,6 +344,23 @@ const Traductions: Record<string, { fr: string; en: string }> = {
     fr: "Que ce soit pour un projet, une idée ou juste discuter — je suis toujours ouvert à une bonne conversation.",
     en: "Whether it's for a project, an idea or just to chat — I'm always open to a good conversation."
   },
+  "Projets livrés": {
+    fr: "Projets livrés",
+    en: "Completed projects"
+  },
+  "Dans les délais": {
+    fr: "Dans les délais",
+    en: "Within the deadlines"
+  },
+  "Client satisfait": {
+    fr: "Client satisfait",
+    en: "Satisfied client"
+  },
+  "Qualité et écoute": {
+    fr: "Qualité et écoute",
+    en: "Quality and attentiveness"
+  },
+
 }
 
 export const Traduction = (key: string, lang: 'fr' | 'en') => {
